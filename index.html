@@ -1,415 +1,218 @@
 <!DOCTYPE html>
-2
 <html lang="es">
-3
 <head>
-4
 <meta charset="UTF-8">
-5
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-6
-<title>Calculadora de Cuota Propuesta</title>
-7
  
-8
+<title>Calculadora de Cuota</title>
+ 
 <style>
-9
+ 
 body{
-10
 font-family: Arial, sans-serif;
-11
-background:#f4f4f4;
-12
+background:#f5f5f5;
 margin:0;
-13
 padding:20px;
-14
 }
-15
  
-16
 .container{
-17
 max-width:700px;
-18
 margin:auto;
-19
 background:white;
-20
 padding:25px;
-21
 border-radius:15px;
-22
-box-shadow:0 2px 10px rgba(0,0,0,.15);
-23
+box-shadow:0 3px 15px rgba(0,0,0,.15);
 }
-24
  
-25
 h1{
-26
 text-align:center;
-27
 color:#2d5f3f;
-28
 }
-29
  
-30
 label{
-31
 display:block;
-32
 margin-top:15px;
-33
 font-weight:bold;
-34
 }
-35
  
-36
-input, select{
-37
+input[type=number],
+select{
 width:100%;
-38
-padding:10px;
-39
-margin-top:5px;
-40
-box-sizing:border-box;
-41
+padding:12px;
 border-radius:8px;
-42
 border:1px solid #ccc;
-43
+box-sizing:border-box;
 }
-44
  
-45
-.checkbox{
-46
-margin-top:12px;
-47
-}
-48
- 
-49
-.resultado{
-50
-margin-top:25px;
-51
-background:#eef7e8;
-52
-padding:20px;
-53
-border-radius:10px;
-54
-}
-55
- 
-56
-.linea{
-57
-margin:8px 0;
-58
-}
-59
- 
-60
-.total{
-61
+.check{
 margin-top:15px;
-62
+}
+ 
+button{
+width:100%;
+margin-top:20px;
+padding:15px;
+border:none;
+border-radius:10px;
+background:#2d5f3f;
+color:white;
+font-size:18px;
+cursor:pointer;
+}
+ 
+button:hover{
+background:#234b32;
+}
+ 
+.resultado{
+margin-top:20px;
+background:#eef7e8;
+padding:20px;
+border-radius:10px;
+}
+ 
+.total{
 font-size:32px;
-63
 font-weight:bold;
-64
 color:#2d5f3f;
-65
 text-align:center;
-66
+margin-top:15px;
 }
-67
  
-68
-.nota{
-69
-color:#666;
-70
-font-size:14px;
-71
-}
-72
 </style>
-73
 </head>
-74
+ 
 <body>
-75
  
-76
 <div class="container">
-77
  
-78
-<h1>Calculadora de Cuota</h1>
-79
+<h1>Calculadora de Cuota Propuesta</h1>
  
-80
 <label>Área del lote (m²)</label>
-81
-<input
-82
-type="number"
-83
-id="area"
-84
-placeholder="Ejemplo: 7838"
-85
-oninput="calcular()"
-86
->
-87
+<input type="number" id="area" placeholder="Ej: 7838">
  
-88
 <label>Tipo de propiedad</label>
-89
-<select id="propiedad" onchange="calcular()">
-90
+<select id="propiedad">
 <option value="3000">Lote desocupado</option>
-91
 <option value="15000">1 vivienda</option>
-92
 <option value="36000">2 viviendas</option>
-93
 </select>
-94
  
-95
-<div class="checkbox">
-96
-<input type="checkbox" id="piscina" onchange="calcular()">
-97
+<div class="check">
+<input type="checkbox" id="piscina">
 Piscina (+ ₡15,000)
-98
 </div>
-99
  
-100
 <label>Caballeriza</label>
-101
-<select id="caballeriza" onchange="calcular()">
-102
+<select id="caballeriza">
 <option value="0">Ninguna</option>
-103
 <option value="15000">Caballeriza S (-3)</option>
-104
 <option value="30000">Caballeriza M (-7)</option>
-105
 <option value="60000">Caballeriza L (-14)</option>
-106
 </select>
-107
  
-108
-<div class="checkbox">
-109
-<input type="checkbox" id="comercial" onchange="calcular()">
-110
-Actividad comercial (+ ₡90,000)
-111
+<div class="check">
+<input type="checkbox" id="comercial">
+Actividad Comercial (+ ₡90,000)
 </div>
-112
  
-113
+<button onclick="calcular()">
+Calcular mi cuota
+</button>
+ 
 <div class="resultado">
-114
  
-115
-<div class="linea"><strong>Componente área:</strong> <span id="areaMonto">₡0</span></div>
-116
+<p><strong>Componente área:</strong> <span id="areaMonto">₡0</span></p>
  
-117
-<div class="linea"><strong>Características:</strong> <span id="extrasMonto">₡0</span></div>
-118
+<p><strong>Características:</strong> <span id="extrasMonto">₡0</span></p>
  
-119
-<div class="linea"><strong>Fondo emergencia (5%):</strong> <span id="emergenciaMonto">₡0</span></div>
-120
+<p><strong>Fondo emergencia (5%):</strong> <span id="emergenciaMonto">₡0</span></p>
  
-121
 <hr>
-122
  
-123
-<div class="total" id="total">
-124
+<div id="total" class="total">
 ₡0
-125
 </div>
-126
  
-127
 </div>
-128
  
-129
-<p class="nota">
-130
-La categoría de terreno se asigna según la referencia más cercana:
-131
-5.000 m², 7.500 m² o 10.000 m².
-132
-</p>
-133
- 
-134
 </div>
-135
  
-136
 <script>
-137
  
-138
-function formato(valor){
-139
+function colones(valor){
 return "₡" + Math.round(valor).toLocaleString("es-CR");
-140
 }
-141
  
-142
 function calcular(){
-143
  
-144
-let area = Number(document.getElementById("area").value);
-145
+let area =
+Number(document.getElementById("area").value);
  
-146
+if(!area){
+alert("Ingrese el área del lote.");
+return;
+}
+ 
 const referencias = [5000,7500,10000];
-147
-const montos = [60000,90000,120000];
-148
+const cuotas = [60000,90000,120000];
  
-149
 let indice = 0;
-150
-let menorDistancia = Infinity;
-151
+let menor = Infinity;
  
-152
 referencias.forEach((ref,i)=>{
-153
-let distancia = Math.abs(area - ref);
-154
+let distancia = Math.abs(area-ref);
  
-155
-if(distancia < menorDistancia){
-156
-menorDistancia = distancia;
-157
+if(distancia < menor){
+menor = distancia;
 indice = i;
-158
 }
-159
 });
-160
  
-161
-let componenteArea = montos[indice];
-162
+let componenteArea = cuotas[indice];
  
-163
 let propiedad =
-164
 Number(document.getElementById("propiedad").value);
-165
  
-166
 let piscina =
-167
 document.getElementById("piscina").checked
-168
 ? 15000 : 0;
-169
  
-170
 let caballeriza =
-171
 Number(document.getElementById("caballeriza").value);
-172
  
-173
 let comercial =
-174
 document.getElementById("comercial").checked
-175
 ? 90000 : 0;
-176
  
-177
-let caracteristicas =
-178
+let extras =
 propiedad +
-179
 piscina +
-180
 caballeriza +
-181
 comercial;
-182
  
-183
-let emergencia = componenteArea * 0.05;
-184
+let emergencia =
+componenteArea * 0.05;
  
-185
 let total =
-186
 componenteArea +
-187
-caracteristicas +
-188
+extras +
 emergencia;
-189
  
-190
-document.getElementById("areaMonto").textContent =
-191
-formato(componenteArea);
-192
+document.getElementById("areaMonto").innerText =
+colones(componenteArea);
  
-193
-document.getElementById("extrasMonto").textContent =
-194
-formato(caracteristicas);
-195
+document.getElementById("extrasMonto").innerText =
+colones(extras);
  
-196
-document.getElementById("emergenciaMonto").textContent =
-197
-formato(emergencia);
-198
+document.getElementById("emergenciaMonto").innerText =
+colones(emergencia);
  
-199
-document.getElementById("total").textContent =
-200
-"TOTAL: " + formato(total);
-201
+document.getElementById("total").innerText =
+"TOTAL: " + colones(total);
 }
-202
  
-203
-calcular();
-204
- 
-205
 </script>
-206
  
-207
 </body>
-208
 </html>
