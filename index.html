@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
  
-<title>Calculadora de Cuota</title>
+<title>Calculadora de Cuota / Assessment Fee Calculator</title>
  
 <style>
  
 body{
 font-family: Arial, sans-serif;
-background:#f5f5f5;
+background:#f4f6f7;
 margin:0;
 padding:20px;
 }
@@ -19,44 +19,53 @@ padding:20px;
 max-width:700px;
 margin:auto;
 background:white;
-padding:25px;
+padding:30px;
 border-radius:15px;
-box-shadow:0 3px 15px rgba(0,0,0,.15);
+box-shadow:0 4px 15px rgba(0,0,0,0.15);
 }
  
 h1{
 text-align:center;
 color:#2d5f3f;
+margin-bottom:10px;
+}
+ 
+.subtitulo{
+text-align:center;
+color:#666;
+margin-bottom:25px;
 }
  
 label{
 display:block;
 margin-top:15px;
+margin-bottom:5px;
 font-weight:bold;
 }
  
-input[type=number],
+input[type="number"],
 select{
 width:100%;
 padding:12px;
-border-radius:8px;
 border:1px solid #ccc;
+border-radius:8px;
 box-sizing:border-box;
 }
  
-.check{
+.opcion{
 margin-top:15px;
 }
  
 button{
 width:100%;
-margin-top:20px;
+margin-top:25px;
 padding:15px;
-border:none;
-border-radius:10px;
 background:#2d5f3f;
 color:white;
+border:none;
+border-radius:10px;
 font-size:18px;
+font-weight:bold;
 cursor:pointer;
 }
  
@@ -65,18 +74,30 @@ background:#234b32;
 }
  
 .resultado{
-margin-top:20px;
+margin-top:25px;
 background:#eef7e8;
 padding:20px;
 border-radius:10px;
 }
  
+.resultado p{
+margin:10px 0;
+}
+ 
 .total{
+margin-top:20px;
+text-align:center;
 font-size:32px;
 font-weight:bold;
 color:#2d5f3f;
+}
+ 
+.nota{
+margin-top:25px;
+font-size:14px;
+color:#666;
 text-align:center;
-margin-top:15px;
+line-height:1.5;
 }
  
 </style>
@@ -86,53 +107,124 @@ margin-top:15px;
  
 <div class="container">
  
-<h1>Calculadora de Cuota Propuesta</h1>
+<h1>
+Calculadora de Cuota<br>
+Assessment Fee Calculator
+</h1>
  
-<label>Área del lote (m²)</label>
-<input type="number" id="area" placeholder="Ej: 7838">
+<p class="subtitulo">
+Estimación informativa para análisis de la propuesta<br>
+Informative estimate for proposal review
+</p>
  
-<label>Tipo de propiedad</label>
+<label>
+Área del lote (Lot Area) m²
+</label>
+ 
+<input
+type="number"
+id="area"
+placeholder="Ejemplo / Example: 7838"
+>
+ 
+<label>
+Tipo de propiedad (Property Type)
+</label>
+ 
 <select id="propiedad">
-<option value="3000">Lote desocupado</option>
-<option value="15000">1 vivienda</option>
-<option value="36000">2 viviendas</option>
+ 
+<option value="3000">
+Lote desocupado (Vacant Lot)
+</option>
+ 
+<option value="15000">
+1 vivienda (1 House)
+</option>
+ 
+<option value="36000">
+2 viviendas (2 Houses)
+</option>
+ 
 </select>
  
-<div class="check">
+<div class="opcion">
 <input type="checkbox" id="piscina">
-Piscina (+ ₡15,000)
+Piscina (Swimming Pool) + ₡15,000
 </div>
  
-<label>Caballeriza</label>
+<label>
+Caballeriza (Stable)
+</label>
+ 
 <select id="caballeriza">
-<option value="0">Ninguna</option>
-<option value="15000">Caballeriza S (-3)</option>
-<option value="30000">Caballeriza M (-7)</option>
-<option value="60000">Caballeriza L (-14)</option>
+ 
+<option value="0">
+Ninguna (None)
+</option>
+ 
+<option value="15000">
+Caballeriza S (-3) (Small Stable)
+</option>
+ 
+<option value="30000">
+Caballeriza M (-7) (Medium Stable)
+</option>
+ 
+<option value="60000">
+Caballeriza L (-14) (Large Stable)
+</option>
+ 
 </select>
  
-<div class="check">
+<div class="opcion">
 <input type="checkbox" id="comercial">
-Actividad Comercial (+ ₡90,000)
+Actividad Comercial (Commercial Activity) + ₡90,000
 </div>
  
 <button onclick="calcular()">
-Calcular mi cuota
+Calcular Cuota / Calculate Fee
 </button>
  
 <div class="resultado">
  
-<p><strong>Componente área:</strong> <span id="areaMonto">₡0</span></p>
+<p>
+<strong>
+Componente área (Lot Component):
+</strong>
+<span id="areaMonto">₡0</span>
+</p>
  
-<p><strong>Características:</strong> <span id="extrasMonto">₡0</span></p>
+<p>
+<strong>
+Características (Property Features):
+</strong>
+<span id="extrasMonto">₡0</span>
+</p>
  
-<p><strong>Fondo emergencia (5%):</strong> <span id="emergenciaMonto">₡0</span></p>
+<p>
+<strong>
+Fondo emergencia (Emergency Fund 5%):
+</strong>
+<span id="emergenciaMonto">₡0</span>
+</p>
  
 <hr>
  
 <div id="total" class="total">
-₡0
+TOTAL: ₡0
 </div>
+ 
+</div>
+ 
+<div class="nota">
+ 
+La categoría del terreno se asigna utilizando la referencia más cercana:
+5.000 m², 7.500 m² o 10.000 m².
+ 
+<br><br>
+ 
+The lot category is assigned using the nearest reference:
+5,000 m², 7,500 m² or 10,000 m².
  
 </div>
  
@@ -140,34 +232,43 @@ Calcular mi cuota
  
 <script>
  
-function colones(valor){
+function formatoColones(valor){
 return "₡" + Math.round(valor).toLocaleString("es-CR");
 }
  
 function calcular(){
  
-let area =
-Number(document.getElementById("area").value);
+let area = Number(
+document.getElementById("area").value
+);
  
-if(!area){
-alert("Ingrese el área del lote.");
+if(area <= 0){
+ 
+alert(
+"Ingrese el área del lote / Please enter the lot area"
+);
+ 
 return;
 }
  
-const referencias = [5000,7500,10000];
-const cuotas = [60000,90000,120000];
+const referencias = [5000, 7500, 10000];
+const cuotas = [60000, 90000, 120000];
  
 let indice = 0;
-let menor = Infinity;
+let distanciaMenor = Infinity;
  
-referencias.forEach((ref,i)=>{
-let distancia = Math.abs(area-ref);
+for(let i = 0; i < referencias.length; i++){
  
-if(distancia < menor){
-menor = distancia;
+let distancia =
+Math.abs(area - referencias[i]);
+ 
+if(distancia < distanciaMenor){
+ 
+distanciaMenor = distancia;
 indice = i;
+ 
 }
-});
+}
  
 let componenteArea = cuotas[indice];
  
@@ -185,7 +286,7 @@ let comercial =
 document.getElementById("comercial").checked
 ? 90000 : 0;
  
-let extras =
+let caracteristicas =
 propiedad +
 piscina +
 caballeriza +
@@ -196,20 +297,20 @@ componenteArea * 0.05;
  
 let total =
 componenteArea +
-extras +
+caracteristicas +
 emergencia;
  
 document.getElementById("areaMonto").innerText =
-colones(componenteArea);
+formatoColones(componenteArea);
  
 document.getElementById("extrasMonto").innerText =
-colones(extras);
+formatoColones(caracteristicas);
  
 document.getElementById("emergenciaMonto").innerText =
-colones(emergencia);
+formatoColones(emergencia);
  
 document.getElementById("total").innerText =
-"TOTAL: " + colones(total);
+"TOTAL: " + formatoColones(total);
 }
  
 </script>
